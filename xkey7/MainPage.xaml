@@ -1,0 +1,85 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="xkey7.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:Helper="clr-namespace:xkey7.Helper" mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="800"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    shell:SystemTray.IsVisible="False"
+    Loaded="PhoneApplicationPage_Loaded"
+    toolkit:TiltEffect.IsTiltEnabled="True">
+    <phone:PhoneApplicationPage.Resources>
+        <Helper:GameImageConverter x:Key="gameImageConverter"/>
+        <Helper:ActiveImageConverter x:Key="activeImageConverter"/>
+    </phone:PhoneApplicationPage.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Background="White">
+            <TextBlock Text="xKey7" FontSize="48" Margin="10,5" Foreground="LimeGreen" />
+        </StackPanel>        
+        
+        <controls:Panorama Grid.Row="1">
+            <controls:PanoramaItem Header="Games" Orientation="Horizontal">
+                <ItemsControl Name="icGames">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <toolkit:WrapPanel Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Width="200" Height="200" Click="Button_Click" Padding="0" Margin="-5" BorderThickness="0">
+                                <Grid>
+                                <Image Width="200" VerticalAlignment="Top" HorizontalAlignment="Center"
+                                       Source="{Binding Id, Converter={StaticResource gameImageConverter}}"
+                                       Stretch="UniformToFill"/>
+                                    <Image Source="/Images/cd.png" VerticalAlignment="Bottom" 
+                                           HorizontalAlignment="Right" Stretch="None" 
+                                           Visibility="{Binding Active, Converter={StaticResource activeImageConverter}}"/>
+                                </Grid>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </controls:PanoramaItem>
+            <controls:PanoramaItem Header="Info">
+                <ScrollViewer>
+                    <ItemsControl Name="icInfo">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,5">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="{Binding Name}" HorizontalAlignment="Left"/>
+                                    <TextBlock Grid.Row="1" Text="{Binding Value}" HorizontalAlignment="Right"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </controls:PanoramaItem>
+        </controls:Panorama>
+    </Grid>
+    
+    
+</phone:PhoneApplicationPage>
